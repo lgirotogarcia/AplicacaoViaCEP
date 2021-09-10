@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/lgirotogarcia/AplicacaoViaCEP/issues"
   },
-  "homepage": "https://github.com/lgirotogarcia/AplicacaoViaCEP#readme"
+  "homepage": "https://github.com/lgirotogarcia/AplicacaoViaCEP#readme",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "express": "^4.17.1"
+  }
 }
