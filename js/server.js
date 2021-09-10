@@ -1,33 +1,31 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
+const db = require('../db.js'); /*conectar no banco de dados*/
 
-// conectar no banco de dados
 
-app.get('/:cep', (req, res) => {
-    axios.get(`http://viacep.com.br/ws/${req.params.cep}/json`).then(data => {
+
+app.get('/:cep', async (req, res) => {
+    try {
+        const data = await axios.get(`http://viacep.com.br/ws/${req.params.cep}/json`)
         const viaCepResponse = data.data;
-
-        // busca o cep no banco de dados
-        // validar se o cep já está no banco de dados
-
-        // if (nao existir) grava o que retornar do viacep - boolean
-        // if existir só responde o que estiver no banco de dados - boolean
-
-        const response = {
-            cep: viaCepResponse.cep,
-            logradouro: viaCepResponse.logradouro,
-            complemento: viaCepResponse.complemento,
-            bairro: viaCepResponse.bairro,
-            localidade: viaCepResponse.localidade,
-            uf: viaCepResponse.uf,
-            ddd: viaCepResponse.ddd
+        const Cep = db.Mongoose.model('cep', db.CepSchema);
+        const docs = await Cep.findOne({cep: viaCepResponse.cep},{_id: 0, __v: 0, createdAt: 0, updatedAt: 0})
+    
+        if(!docs){
+            const newDoc = new Cep(viaCepResponse);
+            await newDoc.save();
+            return res.json(newDoc);
         }
-
-        res.json(response);
-    })
+        if(new Date(docs.updatedAt).getMonth() < new Date().getMonth()){
+            await Cep.findOneAndUpdate({cep: viaCepResponse.cep}, viaCepResponse);
+        }
+        return res.json(docs);  
+    } catch (error) {
+        return res.send('CEP não existente.')
+    }
 })
 
 app.listen(3000, () => {
-    console.log('Servidor on')
+    console.log('Server on')
 })
