@@ -1,0 +1,26 @@
+{
+  "name": "aplicacaoviacep",
+  "version": "1.0.0",
+  "description": "API criada para consulta, atualização e criação de CEPs com base no site ViaCEP.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lgirotogarcia/AplicacaoViaCEP.git"
+  },
+  "keywords": [
+    "api",
+    "Node.JS",
+    "JavaScript",
+    "MongoDB"
+  ],
+  "author": "Leonardo Giroto Garcia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lgirotogarcia/AplicacaoViaCEP/issues"
+  },
+  "homepage": "https://github.com/lgirotogarcia/AplicacaoViaCEP#readme"
+}
